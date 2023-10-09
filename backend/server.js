@@ -2,11 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import products from "./data/products.js";
-//import fkill from "fkill";
-
-//await fkill(":4000");
+import connectDB from "./config/db.js";
+import { connect } from "mongoose";
 
 const port = process.env.PORT || 4040;
+
+connectDB(); // connect to MongoDB
 
 const app = express();
 
