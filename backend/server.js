@@ -1,7 +1,12 @@
 import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 import products from "./data/products.js";
+//import fkill from "fkill";
 
-const port = 4000;
+//await fkill(":4000");
+
+const port = process.env.PORT || 4040;
 
 const app = express();
 
@@ -18,6 +23,15 @@ app.get("/api/products/:id", (req, res) => {
   res.json(product);
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+const server = app.listen(port, (req, res) => {
+  console.log(`Server Running on ${port}`);
+});
+
+//handle server shutdown
+process.on("SIGINT", () => {
+  console.log("Shutting down gracefully...");
+  server.close(() => {
+    console.log("Server closed :)");
+    process.exit(0);
+  });
 });
